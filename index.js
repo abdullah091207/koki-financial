@@ -94,7 +94,7 @@ app.get('/api/transactions', authMiddleware, async (c) => {
  
         // Filter berdasarkan user_id DAN rentang bulan
         const startOfMonth = `${year}-${month.padStart(2, '0')}-01 00:00:00`;
-        const endOfMonth = sql`${startOfMonth} + interval '1 month'`;
+        const endOfMonth = new Date(year, month, 1).toISOString().split('T')[0];
  
         const userTransactions = await db.query.transactions.findMany({
             where: (t, { eq, and, gte, lt }) => and(
@@ -150,7 +150,7 @@ app.use('/*', serveStatic({ root: './public' }));
 if (process.env.VERCEL) {
     globalThis.app = app;
 } else {
-    const port = 3000;
+    const port = 3001;
     console.log(`🚀 Server is running on http://localhost:${port}`);
     serve({ fetch: app.fetch, port });
 }
