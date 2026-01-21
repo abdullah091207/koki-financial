@@ -127,10 +127,7 @@ app.get('/api/transactions', authMiddleware, async (c) => {
     }
 });
  
-// --- ROOT URL dan SERVE STATIC FILES (untuk UI) ---
-app.get('/', (c) => {
-    return c.html('<h1>Financial Tracker API is Running!</h1>');
-});
+
  
 // --- MIDDLEWARE & API ME ---
 app.get('/api/me', (c) => {
@@ -144,6 +141,10 @@ app.get('/api/me', (c) => {
     }
 });
  
+// index.js (Bagian bawah, sebelum kode server start)
+// ROOT URL dan SERVE STATIC FILES (untuk UI)
+app.use('/*', serveStatic({ root: './public' }));
+
 // --- SERVER START ---
 // Logika Vercel (akan ditambahkan nanti)
 if (process.env.VERCEL) {
